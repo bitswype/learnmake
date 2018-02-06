@@ -1,0 +1,4 @@
+# everything in the build directory
+build
+# the build output
+hello

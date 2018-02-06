@@ -4,6 +4,6 @@
 int main(int argc, char * argv[])
 {
   printf("hello world!\n");
-  foo();
+  foo(3);
   return 0;
 }

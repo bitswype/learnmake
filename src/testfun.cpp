@@ -1,8 +1,8 @@
 #include "testfun.hpp"
 #include <stdio.h>
 
-void foo(void)
+void foo(int bar)
 {
-  printf("testfoo!\n");
+  printf("testfoo %d!\n", bar);
   return;
 }

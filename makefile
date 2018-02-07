@@ -3,29 +3,26 @@ SRC:=src
 INC:=inc
 
 all: hello
+
+hello: main
+	mv main hello
 	
-hello: $(BUILD)/hello.o $(BUILD)/testfun.o
-	g++ $(BUILD)/hello.o $(BUILD)/testfun.o -o hello
+main: $(BUILD)/main.o $(BUILD)/testfun.o
+	g++ $^ -o $@
 
-$(BUILD)/hello.o: $(BUILD)/hello.S
-	g++ -c $(BUILD)/hello.S -o $(BUILD)/hello.o
+# check out implicit rules and automatic variables
+$(BUILD)/%.o: $(BUILD)/%.S
+	g++ -c $< -o $@
 
-$(BUILD)/hello.S: $(BUILD)/hello.cc
-	g++ -S $(BUILD)/hello.cc -o $(BUILD)/hello.S
+$(BUILD)/%.S: $(BUILD)/%.cc
+	g++ -S $< -o $@
 
-$(BUILD)/hello.cc: $(SRC)/main.cpp $(INC)/testfun.hpp
-	g++ -E $(SRC)/main.cpp -I$(INC) -o $(BUILD)/hello.cc
-
-$(BUILD)/testfun.o: $(BUILD)/testfun.S
-	g++ -c $(BUILD)/testfun.S -o $(BUILD)/testfun.o
-
-$(BUILD)/testfun.S: $(BUILD)/testfun.cc
-	g++ -S $(BUILD)/testfun.cc -o $(BUILD)/testfun.S
-
-$(BUILD)/testfun.cc: $(SRC)/testfun.cpp $(INC)/testfun.hpp
-	g++ -E $(SRC)/testfun.cpp -I$(INC) -o $(BUILD)/testfun.cc
+$(BUILD)/%.cc: $(SRC)/%.cpp $(INC)/testfun.hpp
+	g++ -E $< -I$(INC) -o $@
 
 clean:
 	-rm hello $(BUILD)/*.cc $(BUILD)/*.S $(BUILD)/*.o
 
 .PHONY: clean
+# preserve all intermediate files created by implicit rules above
+.PRECIOUS: $(BUILD)/%.cc $(BUILD)/%.S

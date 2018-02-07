@@ -4,6 +4,12 @@ INC:=inc
 
 all: hello
 
+runtest: test
+	./test
+
+test: $(BUILD)/test.o $(BUILD)/testfun.o
+	g++ $^ -o $@
+
 hello: main
 	mv main hello
 	
@@ -21,7 +27,7 @@ $(BUILD)/%.cc: $(SRC)/%.cpp $(INC)/testfun.hpp
 	g++ -E $< -I$(INC) -o $@
 
 clean:
-	-rm hello $(BUILD)/*.cc $(BUILD)/*.S $(BUILD)/*.o
+	-rm test hello $(BUILD)/*.cc $(BUILD)/*.S $(BUILD)/*.o
 
 .PHONY: clean
 # preserve all intermediate files created by implicit rules above

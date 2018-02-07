@@ -1,4 +1,9 @@
 # everything in the build directory
-build
+build/*
+!build/.placeholder
+#ignore the lib directory
+lib/*
+!lib/.placeholder
 # the build output
 hello
+test
